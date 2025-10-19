@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>omgiaaunblocked</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <h1>omgiaaunblocked</h1>
+      <p class="tag">Your safe search & gaming hub</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="search-card card">
+      <h2>Quick search</h2>
+      <form id="searchForm" class="search-form" onsubmit="return doSearch()">
+        <input id="searchInput" type="search" placeholder="Search anything (press enter)..." autofocus />
+        <div class="search-buttons">
+          <button type="button" onclick="openSearch('google')">Google</button>
+          <button type="button" onclick="openSearch('ddg')">DuckDuckGo</button>
+          <button type="button" onclick="openSearch('wiki')">Wikipedia</button>
+          <button type="button" onclick="openSearch('yt')">YouTube</button>
+        </div>
+      </form>
+      <small class="hint">Search opens in a new tab using the selected engine.</small>
+    </section>
+
+    <section class="links-grid">
+      <article class="card large-card">
+        <h3>Roblox</h3>
+        <div class="btns">
+          <a class="btn primary" href="https://www.roblox.com" target="_blank" rel="noopener">Official Roblox</a>
+          <a class="btn secondary" href="#" target="_blank" rel="noopener" title="Paste cloud gaming link in repo">Cloud / Now.gg (placeholder)</a>
+        </div>
+        <p class="note">If you have a legitimate cloud gaming URL you want to use, paste it in the repo and replace the placeholder href.</p>
+      </article>
+
+      <article class="card large-card">
+        <h3>Instagram</h3>
+        <div class="btns">
+          <a class="btn primary" href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a>
+          <a class="btn secondary" href="#" target="_blank" rel="noopener" title="Paste proxy/mirror link in repo">Alternate (placeholder)</a>
+        </div>
+        <p class="note">Official Instagram link provided. Alternate link is a placeholder for your own, legal option.</p>
+      </article>
+
+      <article class="card small-card">
+        <h3>Other quick links</h3>
+        <div class="list-links">
+          <a class="link" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a>
+          <a class="link" href="https://www.google.com" target="_blank" rel="noopener">Google</a>
+          <a class="link" href="https://duckduckgo.com" target="_blank" rel="noopener">DuckDuckGo</a>
+          <a class="link" href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>
+        </div>
+      </article>
+
+      <article class="card small-card">
+        <h3>Notes</h3>
+        <textarea id="notes" placeholder="Personal notes (saved in browser)"></textarea>
+        <button id="saveNotes">Save note</button>
+        <small class="hint">Notes are stored locally in your browser only.</small>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Made for omgiaaunblocked • Host on GitHub Pages</p>
+  </footer>
+
+  <script>
+    // Simple search helper - opens selected engine with query
+    function openSearch(engine) {
+      const q = encodeURIComponent(document.getElementById('searchInput').value.trim());
+      if (!q) return;
+      let url = '';
+      if (engine === 'google') {
+        // Google with safe parameter
+        url = 'https://www.google.com/search?q=' + q + '&safe=active';
+      } else if (engine === 'ddg') {
+        url = 'https://duckduckgo.com/?q=' + q;
+      } else if (engine === 'wiki') {
+        url = 'https://en.wikipedia.org/w/index.php?search=' + q;
+      } else if (engine === 'yt') {
+        url = 'https://www.youtube.com/results?search_query=' + q;
+      }
+      window.open(url, '_blank', 'noopener');
+    }
+
+    function doSearch() {
+      // default search opens with DuckDuckGo
+      openSearch('ddg');
+      return false; // prevent form submit
+    }
+
+    // Notes save/load (localStorage)
+    const notesEl = document.getElementById('notes');
+    const saveBtn = document.getElementById('saveNotes');
+    const NOTES_KEY = 'omgiaa_notes_v1';
+    function loadNotes() {
+      const s = localStorage.getItem(NOTES_KEY) || '';
+      notesEl.value = s;
+    }
+    function saveNotes() {
+      localStorage.setItem(NOTES_KEY, notesEl.value);
+      saveBtn.textContent = 'Saved ✓';
+      setTimeout(()=> saveBtn.textContent = 'Save note', 1200);
+    }
+    saveBtn.addEventListener('click', saveNotes);
+    loadNotes();
+  </script>
+</body>
+</html>
+:root{
+  --bg: #ffddeb; /* pastel pink */
+  --card: #ffffff;
+  --accent: #0a3cff; /* royal blue */
+  --accent-dark: #0a2ad1;
+  --muted: #111111; /* black-ish text */
+  --danger: #8b0000; /* dark red */
+  --glass: rgba(255,255,255,0.75);
+  --radius: 14px;
+  --shadow: 0 8px 20px rgba(16,16,16,0.12);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg, var(--bg) 0%, #ffe4f0 50%, #f7f7fb 100%);
+  color:var(--muted);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+/* header */
+.site-header{
+  padding:28px 20px;
+  display:flex;
+  justify-content:center;
+  border-bottom:2px solid rgba(0,0,0,0.06);
+  background: linear-gradient(90deg, rgba(10,60,255,0.06), rgba(139,0,0,0.02));
+}
+.brand h1{
+  margin:0;
+  font-size:28px;
+  color:var(--accent-dark);
+  letter-spacing:0.6px;
+}
+.brand .tag{
+  margin:6px 0 0 0;
+  font-size:13px;
+  color:#222;
+}
+
+/* container */
+.container{
+  width:100%;
+  max-width:1100px;
+  margin:28px auto;
+  padding:0 20px 40px;
+  flex:1;
+}
+
+/* cards */
+.card{
+  background: linear-gradient(180deg, var(--card), var(--glass));
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:20px;
+  margin-bottom:18px;
+  border:1px solid rgba(0,0,0,0.04);
+}
+
+.search-card{
+  display:block;
+  margin-bottom:22px;
+}
+
+.search-form{
+  display:flex;
+  gap:12px;
+  margin-top:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.search-form input[type="search"]{
+  flex:1;
+  min-width:220px;
+  padding:12px 14px;
+  border-radius:10px;
+  border:2px solid rgba(10,60,255,0.12);
+  font-size:15px;
+  outline:none;
+}
+.search-buttons button{
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:10px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.search-buttons button:hover{background:var(--accent-dark)}
+
+.links-grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:16px;
+}
+
+/* different sized cards */
+.large-card{ grid-column: span 6; min-height:150px; }
+.small-card{ grid-column: span 6; min-height:120px; }
+
+@media (max-width:880px){
+  .links-grid{ grid-template-columns: repeat(6,1fr) }
+  .large-card{ grid-column: span 6; }
+  .small-card{ grid-column: span 6; }
+}
+
+.btns{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.btn{
+  display:inline-block;
+  padding:10px 14px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:600;
+  border:2px solid rgba(0,0,0,0.06);
+}
+.btn.primary{
+  background: linear-gradient(0deg, var(--accent), var(--accent-dark));
+  color:white;
+  box-shadow:0 6px 14px rgba(10,60,255,0.14);
+}
+.btn.secondary{
+  background:transparent;
+  color:var(--danger);
+  border:2px dashed rgba(139,0,0,0.18);
+}
+.btn.primary:hover{ transform:translateY(-2px) }
+.btn.secondary:hover{ background:rgba(139,0,0,0.03) }
+
+.list-links{ display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.link{ color:var(--accent-dark); text-decoration:none; font-weight:600; }
+.link:hover{ text-decoration:underline }
+
+.note{ margin-top:10px; font-size:13px; color:#444 }
+.hint{ color:#666; font-size:12px }
+
+textarea#notes{
+  width:100%;
+  min-height:72px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,0.06);
+  padding:8px;
+  resize:vertical;
+  margin-top:8px;
+}
+
+#saveNotes{
+  margin-top:8px;
+  padding:8px 12px;
+  border-radius:8px;
+  border:none;
+  background:var(--accent);
+  color:white;
+  cursor:pointer;
+}
+
+.site-footer{
+  text-align:center;
+  padding:14px 10px;
+  font-size:13px;
+  color:#222;
+  border-top:1px solid rgba(0,0,0,0.03);
+}
+# omgiaaunblocked
+
+A safe, legal hub site for quick searches and links. Designed to be hosted on GitHub Pages.
+
+features
+- pastel pink / royal blue / dark red / black theme
+- search box that opens Google, DuckDuckGo, Wikipedia or YouTube
+- official links to Roblox and Instagram (placeholders included for your own legal cloud URLs)
+- local browser-stored notes
+
+how to deploy on GitHub Pages
+1. create a new repository on GitHub named `omgiaaunblocked` (or any name).
+2. upload `index.html` and `style.css` to the repository root.
+3. in the repository settings -> Pages, set the source to the `main` branch and the root folder (or enable GitHub Pages following GitHub UI).
+4. within a minute or two your site will be available at `https://<your-username>.github.io/<repo-name>/`
+
+notes about placeholders and safety
+- This project intentionally does not include any code to bypass network or school restrictions.
+- The "Cloud / Now.gg (placeholder)" and "Alternate (placeholder)" buttons are placeholders only. If you have a legitimate cloud gaming URL (that you are allowed to use), you can edit `index.html` and replace the placeholder href with your own link.
+- If a site is blocked at your school, the right thing to do is ask an admin for permission or use approved resources.
+
+want changes?
+- I can:
+  - add extra quick-links (YouTube playlists, Google Classroom, Discord invite, etc.)
+  - swap layout to single column mobile-first
+  - add icons (SVG) to buttons
+  - produce a one-click deploy script for GitHub
+Tell me which and I’ll update the files.
